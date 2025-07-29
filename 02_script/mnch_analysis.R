@@ -80,3 +80,18 @@ rank_trend <- merged_data %>%
     trend_sab  = (sab_end - sab_start) / (end_year - start_year),
     .groups = "drop"
   )
+
+u5mr_status <- read_excel("01_data/01_rawdata/On-track and off-track countries.xlsx") %>%
+  select(country_code = ISO3Code, u5mr_status = `Status.U5MR`) %>%
+  mutate(
+    u5mr_classification = case_when(
+      tolower(u5mr_status) %in% c("achieved", "on track") ~ "On Track",
+      tolower(u5mr_status) == "acceleration needed" ~ "Off Track",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+# ✅ Merge with rank_trend to attach U5MR classification
+rank_trend <- rank_trend %>%
+  left_join(u5mr_status, by = "country_code")

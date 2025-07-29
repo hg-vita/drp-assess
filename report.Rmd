@@ -22,27 +22,72 @@ source("02_script/mnch_analysis.R")
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot(latest_coverage, aes(x = mnch_anc4, y = mnch_sab)) +
   geom_point(color = "steelblue", size = 2) +
-  labs(title = "Country-wise Scatter Plot: ANC4 vs SBA",
-       x = "ANC4 Coverage (%)",
-       y = "SBA Coverage (%)") +
+  geom_text(aes(label = country_code), vjust = -0.8, size = 3.2, check_overlap = TRUE) +
+  labs(
+    title = "Country-wise Scatter Plot: ANC4 vs SBA",
+    x = "ANC4 Coverage (%)",
+    y = "SBA Coverage (%)"
+  ) +
   theme_minimal()
+
 ```
 
 
 
 ### Population-Weighted Coverage Summary
 
-```{r}
-latest_with_births <- latest_coverage %>%
-  inner_join(births_2022, by = "country_code")
+ANC4: On Track countries have a higher average coverage (50.7%) compared to Off Track (44.5%).
 
-weighted_summary <- latest_with_births %>%
+SBA: A sharper gap: On Track countries reach 78.7%, while Off Track countries lag at 64.1%.
+
+```{r}
+# Join U5MR classification data first
+latest_with_births <- latest_coverage %>%
+  inner_join(births_2022, by = "country_code") %>%
+  left_join(u5mr_status, by = "country_code")
+
+# Compute birth-weighted ANC4 and SBA averages by classification
+weighted_summary_by_u5mr <- latest_with_births %>%
+  filter(!is.na(u5mr_classification)) %>%
+  group_by(u5mr_classification) %>%
   summarise(
     weighted_anc4 = round(sum(mnch_anc4 * births_thousands, na.rm = TRUE) / sum(births_thousands, na.rm = TRUE), 1),
-    weighted_sab  = round(sum(mnch_sab  * births_thousands, na.rm = TRUE) / sum(births_thousands, na.rm = TRUE), 1)
+    weighted_sab  = round(sum(mnch_sab  * births_thousands, na.rm = TRUE) / sum(births_thousands, na.rm = TRUE), 1),
+    .groups = "drop"
   )
 
-kable(weighted_summary, caption = "2022 Birth-weighted Averages for ANC4 and SBA")
+#kable(weighted_summary_by_u5mr, caption = "2022 Birth-weighted ANC4 and SBA by U5MR Classification")
+
+```
+
+```{r}
+library(ggplot2)
+library(tidyr)
+
+# Convert to long format for plotting
+plot_data <- weighted_summary_by_u5mr %>%
+  pivot_longer(cols = starts_with("weighted_"), 
+               names_to = "indicator", 
+               values_to = "coverage") %>%
+  mutate(indicator = recode(indicator, 
+                            "weighted_anc4" = "ANC4 Coverage", 
+                            "weighted_sab" = "SBA Coverage"))
+
+# Plot with x-axis as Indicator, and % labels on bars
+ggplot(plot_data, aes(x = indicator, y = coverage, fill = u5mr_classification)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.6) +
+  geom_text(aes(label = coverage), 
+            position = position_dodge(width = 0.8), 
+            vjust = -0.5, size = 4) +
+  labs(
+    title = "Birth-weighted ANC4 and SBA Coverage by U5MR Classification",
+    x = "Indicator",
+    y = "Coverage (%)",
+    fill = "U5MR Classification"
+  ) +
+  scale_fill_manual(values = c("On Track" = "#4E79A7", "Off Track" = "#F28E2B")) +
+  theme_minimal(base_size = 14)
+
 
 ```
 

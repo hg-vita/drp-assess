@@ -29,11 +29,11 @@ This will: - Set up the environment (`user_profile.R`) - Load data and analysis 
 | Folder/File           | Purpose                                                        |
 |--------------------|----------------------------------------------------|
 | `01_data/`            | All input data used for the analysis                           |
-| ├── `02_clean_data/`  | Contains cleaned WPP files (e.g., `wpp_processed.rds`)         |
-| └── `03_prod_data/`   | Final merged dataset (e.g., `merged_unicef_wpp.rds`)           |
+| ├── `01_clean_data/`  | Contains cleaned worldpop and unapi data        |
+| ├── `02_process_data/`  | Contains cleaned raw data files, for intemrmediate processing       |
+| └── `03_prod_data/`   | Final merged datasets for document generation          |
 | `02_script/`          | Contains reusable scripts for data transformation and analysis |
-| └── `mnch_analysis.R` | Core logic for loading data and computing indicator trends     |
-| `outputs/`            | Target location for all generated reports (`report.html`)      |
+| `03_output/`           | Target location for all generated reports  and related output |
 | `report.Rmd`          | Main RMarkdown file used to render the summary report          |
 | `run_project.R`       | Script to orchestrate execution of the report pipeline         |
 | `user_profile.R`      | Environment-agnostic setup: directories + package installation |

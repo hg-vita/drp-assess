@@ -17,22 +17,20 @@ source("02_script/mnch_analysis.R")
 
 ```
 
-```{r paged.print=TRUE}
-latest_coverage <- merged_data %>%
-  arrange(country_code, desc(year)) %>%
-  group_by(country_code) %>%
-  slice(1) %>%
-  ungroup() %>%
-  select(country_code, year, mnch_anc4, mnch_sab)
+### Latest Available ANC4 and SBA Coverage by Country
 
-DT::datatable(
-  latest_coverage,
-  caption = "Latest Available ANC4 and SBA Coverage by Country",
-  options = list(pageLength = 10)
-)
-
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+ggplot(latest_coverage, aes(x = mnch_anc4, y = mnch_sab)) +
+  geom_point(color = "steelblue", size = 2) +
+  labs(title = "Country-wise Scatter Plot: ANC4 vs SBA",
+       x = "ANC4 Coverage (%)",
+       y = "SBA Coverage (%)") +
+  theme_minimal()
 ```
 
+
+
+### Population-Weighted Coverage Summary
 
 ```{r}
 latest_with_births <- latest_coverage %>%
@@ -48,3 +46,6 @@ kable(weighted_summary, caption = "2022 Birth-weighted Averages for ANC4 and SBA
 
 ```
 
+#### Positions applied for
+- Learning and Skills Data Analyst Consultant – Req. #581598
+- Administrative Data Analyst – Req #581696

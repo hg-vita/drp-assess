@@ -1,80 +1,78 @@
+# Assessment: UNICEF D&A Team
 
-# 📊 Consultancy Assessment Submission
+This repository provides a reproducible pipeline to generate a national-level summary report of ANC4 and SBA coverage, weighted by projected births for 2022. The report leverages harmonized MNCH indicators from UNICEF and demographic projections from the UN World Population Prospects.
 
-This repository contains a reproducible workflow to calculate **population-weighted health service coverage** for:
+------------------------------------------------------------------------
 
-- **Antenatal Care (ANC4)**: % of women (15–49) with at least 4 ANC visits
-- **Skilled Birth Attendance (SBA)**: % of deliveries attended by skilled health personnel
+## 📁 Structure and Purpose
 
----
+| Folder/File           | Purpose                                                        |
+|--------------------|----------------------------------------------------|
+| `01_data/`            | All input data used for the analysis                           |
+| ├── `02_clean_data/`  | Contains cleaned WPP files (e.g., `wpp_processed.rds`)         |
+| └── `03_prod_data/`   | Final merged dataset (e.g., `merged_unicef_wpp.rds`)           |
+| `02_script/`          | Contains reusable scripts for data transformation and analysis |
+| └── `mnch_analysis.R` | Core logic for loading data and computing indicator trends     |
+| `outputs/`            | Target location for all generated reports (`report.html`)      |
+| `report.Rmd`          | Main RMarkdown file used to render the summary report          |
+| `run_project.R`       | Script to orchestrate execution of the report pipeline         |
+| `user_profile.R`      | Environment-agnostic setup: directories + package installation |
 
-## ✅ Repository Structure
+------------------------------------------------------------------------
 
-```
-consultancy-assessment/
-├── data/
-│   ├── coverage_data.csv               # Raw data
-│   ├── cleaned_data.rds                # Output from script 1
-│   └── weighted_coverage.rds           # Output from script 2
-├── outputs/
-│   ├── anc4_sba_plot.png               # Output plot
-│   └── summary_table.csv               # Output table
-├── scripts/
-│   ├── 01_clean_data.R
-│   ├── 02_calculate_coverage.R
-│   └── 03_generate_outputs.R
-├── report/
-│   └── dashboard_report.Rmd            # Optional interactive report
-├── run_all.R                           # Master script to run all
-├── README.md
-```
+## 📋 How to Run the Project
 
----
+### 1. Clone the Repository
 
-## 🚀 How to Run
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/consultancy-assessment.git
-cd consultancy-assessment
+``` bash
+git clone https://github.com/hg-vita/drp-assess.git
+cd drp-assess
 ```
 
-### 2. Run the entire analysis (R terminal or console)
+### 2. Render the Report
 
-```r
-source("run_all.R")
+Run the project from R or RStudio:
+
+``` r
+source("run_project.R")
 ```
 
-This will:
-- Clean the raw data
-- Calculate weighted ANC4/SBA coverage
-- Generate outputs: plot + summary table
+Or from command line:
 
----
-
-## 📄 Optional Report
-
-To render the interactive report (with dropdowns and PDF export):
-
-```r
-rmarkdown::render("report/dashboard_report.Rmd", output_format = "pdf_document")
+``` bash
+Rscript run_project.R
 ```
 
----
+This will: - Set up the environment (`user_profile.R`) - Load data and analysis logic (`mnch_analysis.R`) - Generate the final HTML report (`report.Rmd` → `outputs/report.html`)
 
-## ✅ Submission Checklist
+------------------------------------------------------------------------
 
-- [x] Well-structured folder hierarchy
-- [x] Automated execution via `run_all.R`
-- [x] Clean, documented, and reproducible scripts
-- [x] Version controlled with Git
-- [x] Outputs (plot + table) saved to `outputs/`
-- [x] Optional interactive markdown report
+## 📦 Package Requirements
 
----
+All required packages will be installed automatically through user_profile.R:
 
-🕓 **Submitted before**: 29 July 2025, 6:00 AM EST / 3:30 PM IST  
-🔗 **GitHub Repo**: [insert final repo link here]
+``` r
+c("dplyr", "tibble", "knitr", "rmarkdown", "DT", "readr", "stringr", "janitor", "glue")
+```
 
-Thank you for reviewing this submission.
+------------------------------------------------------------------------
+
+## 📤 Output
+
+After successful execution, the report will be available at:
+
+```         
+outputs/report.html
+```
+
+Open it in any browser to explore the data and tables interactively.
+
+------------------------------------------------------------------------
+
+## Positions Applied
+
+I have applied for the following positions \
+- Learning and Skills Data Analyst Consultant – Req. \#**581598** \
+- Administrative Data Analyst – Req \#**581696**
+
+------------------------------------------------------------------------

@@ -16,10 +16,6 @@ Run the project from R or RStudio:
 ``` r
 source("run_project.R")
 ```
-Or from command line:
-``` bash
-Rscript run_project.R
-```
 This will: - Set up the environment (`user_profile.R`) - Load data and analysis logic (`mnch_analysis.R`) - Generate the final HTML report (`report.Rmd` → `outputs/report.html`)
 
 ------------------------------------------------------------------------

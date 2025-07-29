@@ -14,11 +14,11 @@ stopifnot(dir.exists(projectFolder))
 
 # Set up key folders
 dataDir     <- file.path(projectFolder, "01_data")
-outputDir   <- file.path(projectFolder, "outputs")
+outputDir   <- file.path(projectFolder, "03_output")
 scriptsDir  <- file.path(projectFolder, "02_script")
-reportDir   <- file.path(projectFolder, "report")
+reportDir   <- file.path(projectFolder, "04_report")
 
 # Validate that key folders exist
-stopifnot(dir.exists(dataDir))
-stopifnot(dir.exists(outputDir))
-stopifnot(dir.exists(scriptsDir))
+dir.create(dataDir, recursive = TRUE, showWarnings = FALSE)
+dir.create(outputDir, recursive = TRUE, showWarnings = FALSE)
+dir.create(scriptsDir, recursive = TRUE, showWarnings = FALSE)

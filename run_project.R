@@ -1,6 +1,19 @@
+#-------------------------------------------------------------------
+# Project: Population-Weighted Health Coverage
+# Script: Report Runner
+# Author: [Your Name]
+# Date: 28 July 2025
+#-------------------------------------------------------------------
 
-# run_all.R
+# Load user profile (sets folders and installs packages)
+source("user_profile.R")
 
-source("scripts/01_clean_data.R")
-source("scripts/02_calculate_coverage.R")
-source("scripts/03_generate_outputs.R")
+# Render the R Markdown report
+rmarkdown::render(
+  input       = "report.Rmd",
+  output_file = file.path(outputDir, "report.html"),
+  output_dir  = outputDir,
+  clean       = TRUE
+)
+
+message("✅ Report successfully rendered to: ", file.path(outputDir, "report.html"))

@@ -1,10 +1,10 @@
-# Assessment: UNICEF D&A Team
+## Assessment: UNICEF D&A Team
 
 This repository provides a reproducible pipeline to generate a national-level summary report of ANC4 and SBA coverage, weighted by projected births for 2022. The report leverages harmonized MNCH indicators from UNICEF and demographic projections from the UN World Population Prospects.
 
 ------------------------------------------------------------------------
 
-## 📋 How to Run the Project
+### 📋 How to Run the Project
 
 #### 1. Clone the Repository
 ``` bash

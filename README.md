@@ -4,7 +4,27 @@ This repository provides a reproducible pipeline to generate a national-level su
 
 ------------------------------------------------------------------------
 
-## 📁 Structure and Purpose
+## 📋 How to Run the Project
+
+#### 1. Clone the Repository
+``` bash
+git clone https://github.com/hg-vita/drp-assess.git
+cd drp-assess
+```
+#### 2. Render the Report
+Run the project from R or RStudio:
+``` r
+source("run_project.R")
+```
+Or from command line:
+``` bash
+Rscript run_project.R
+```
+This will: - Set up the environment (`user_profile.R`) - Load data and analysis logic (`mnch_analysis.R`) - Generate the final HTML report (`report.Rmd` → `outputs/report.html`)
+
+------------------------------------------------------------------------
+
+### 📁 Structure and Purpose
 
 | Folder/File           | Purpose                                                        |
 |--------------------|----------------------------------------------------|
@@ -19,56 +39,14 @@ This repository provides a reproducible pipeline to generate a national-level su
 | `user_profile.R`      | Environment-agnostic setup: directories + package installation |
 
 ------------------------------------------------------------------------
-
-## 📋 How to Run the Project
-
-### 1. Clone the Repository
-
-``` bash
-git clone https://github.com/hg-vita/drp-assess.git
-cd drp-assess
-```
-
-### 2. Render the Report
-
-Run the project from R or RStudio:
-
-``` r
-source("run_project.R")
-```
-
-Or from command line:
-
-``` bash
-Rscript run_project.R
-```
-
-This will: - Set up the environment (`user_profile.R`) - Load data and analysis logic (`mnch_analysis.R`) - Generate the final HTML report (`report.Rmd` → `outputs/report.html`)
-
-------------------------------------------------------------------------
-
-## 📦 Package Requirements
-
-All required packages will be installed automatically through user_profile.R:
-
-``` r
-c("dplyr", "tibble", "knitr", "rmarkdown", "DT", "readr", "stringr", "janitor", "glue")
-```
-
-------------------------------------------------------------------------
-
 ## 📤 Output
-
 After successful execution, the report will be available at:
-
 ```         
 outputs/report.html
 ```
-
 Open it in any browser to explore the data and tables interactively.
 
 ------------------------------------------------------------------------
-
 ## Positions Applied
 
 I have applied for the following positions \

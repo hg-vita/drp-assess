@@ -43,7 +43,8 @@ unicef_clean <- df %>%
   pivot_wider(
     names_from = indicator,
     values_from = value
-  )
+  ) %>%
+  filter(grepl("^[A-Z]{3}$", country))
 
 # -----Save Clean Data-----
 

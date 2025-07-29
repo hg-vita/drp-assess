@@ -1,0 +1,50 @@
+---
+title: "MNCH Coverage Summary Report"
+output:
+  html_document:
+    theme: readable
+    code_folding: hide
+    df_print: paged
+---
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(knitr)
+library(DT)
+library(tibble)
+source("02_script/mnch_analysis.R")
+
+```
+
+```{r paged.print=TRUE}
+latest_coverage <- merged_data %>%
+  arrange(country_code, desc(year)) %>%
+  group_by(country_code) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(country_code, year, mnch_anc4, mnch_sab)
+
+DT::datatable(
+  latest_coverage,
+  caption = "Latest Available ANC4 and SBA Coverage by Country",
+  options = list(pageLength = 10)
+)
+
+```
+
+
+```{r}
+latest_with_births <- latest_coverage %>%
+  inner_join(births_2022, by = "country_code")
+
+weighted_summary <- latest_with_births %>%
+  summarise(
+    weighted_anc4 = round(sum(mnch_anc4 * births_thousands, na.rm = TRUE) / sum(births_thousands, na.rm = TRUE), 1),
+    weighted_sab  = round(sum(mnch_sab  * births_thousands, na.rm = TRUE) / sum(births_thousands, na.rm = TRUE), 1)
+  )
+
+kable(weighted_summary, caption = "2022 Birth-weighted Averages for ANC4 and SBA")
+
+```
+
